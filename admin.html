@@ -1,0 +1,290 @@
+<!DOCTYPE html>
+<html lang="ur" dir="rtl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex,nofollow">
+<title>ایڈمن — سکوتِ شعور</title>
+<style>
+@font-face{font-family:"Jameel Noori Nastaleeq";src:local("Jameel Noori Nastaleeq"),local("JameelNooriNastaleeq"),url("fonts/JameelNooriNastaleeq.woff2") format("woff2"),url("fonts/JameelNooriNastaleeq.ttf") format("truetype");font-display:block}
+:root{--bg:#f6f7fb;--ink:#0f172a;--mut:#64748b;--card:#fff;--line:#dfe4f0;--acc:#4f46e5;--chip:#eceefa;--bad:#dc2626;--ok:#15803d}
+@media(prefers-color-scheme:dark){:root{--bg:#0b1020;--ink:#f1f4fc;--mut:#9aa6c0;--card:#141b30;--line:#252e4a;--acc:#8b93ff;--chip:#1d2644;--bad:#f87171;--ok:#4ade80}}
+*{box-sizing:border-box;font-family:"Jameel Noori Nastaleeq"}
+body{margin:0;background:var(--bg);color:var(--ink);font-size:19px;line-height:2.1}
+.w{max-width:760px;margin:0 auto;padding:0 16px 60px}
+header{position:sticky;top:0;z-index:5;background:var(--bg);border-bottom:1px solid var(--line)}
+header .w{display:flex;justify-content:space-between;align-items:center;padding-bottom:0}
+header b{font-size:24px;font-weight:400}
+.card{background:var(--card);border:1px solid var(--line);border-radius:20px;padding:10px 18px 18px;margin:16px 0}
+h2{font-size:23px;font-weight:400;margin:6px 0}
+label{display:block;color:var(--mut);font-size:16px;margin-top:8px}
+input,select,textarea{width:100%;border:1px solid var(--line);border-radius:14px;background:var(--bg);color:var(--ink);font-size:19px;padding:4px 12px;line-height:2.1;outline:none}
+input:focus,select:focus,textarea:focus{border-color:var(--acc)}
+textarea{min-height:340px;font-size:21px;line-height:2.5;resize:vertical;padding:8px 14px}
+.row{display:flex;gap:10px}.row>div{flex:1;min-width:0}
+button{border:0;border-radius:14px;padding:0 18px;line-height:2.4;font-size:18px;cursor:pointer;background:var(--chip);color:var(--ink)}
+button.p{background:var(--acc);color:#fff}
+button.d{color:var(--bad)}
+button:disabled{opacity:.6}
+.tools{display:flex;gap:8px;flex-wrap:wrap;margin:6px 0}
+.img{margin-top:6px;display:flex;gap:10px;align-items:center;flex-wrap:wrap}
+.img img{max-width:180px;max-height:110px;border-radius:12px;object-fit:cover}
+.msg{min-height:30px;color:var(--mut);font-size:16px}
+.msg.e{color:var(--bad)}
+.msg.g{color:var(--ok)}
+.pl{display:flex;gap:10px;align-items:center;border-top:1px solid var(--line);padding:6px 0}
+.pl:first-of-type{border-top:0}
+.pl .t{flex:1;min-width:0}
+.pl .t b{font-weight:400;font-size:20px;display:block}
+.pl .t span{font-size:14px;color:var(--mut)}
+.hint{font-size:15px;color:var(--mut);line-height:2}
+[hidden]{display:none!important}
+</style>
+</head>
+<body>
+<header><div class="w"><b>🌙 ایڈمن</b><a href="./" style="color:var(--acc);font-size:16px">سائٹ دیکھیں</a></div></header>
+<div class="w">
+
+<div class="card" id="bn" hidden style="border-color:var(--bad);color:var(--bad)"></div>
+
+<section class="card" id="setup" hidden>
+<h2>ایک بار کی ترتیب</h2>
+<p class="hint">GitHub سے بنائی ہوئی چابی (token) یہاں ایک بار چپکائیں۔ یہ صرف اسی فون کے براؤزر میں محفوظ رہے گی، اور کسی کو نظر نہیں آئے گی۔</p>
+<label>چابی (token)</label>
+<input id="tk" type="password" autocomplete="off" dir="ltr">
+<div id="manual" hidden>
+<p class="hint">آپ کی سائٹ github.io پر نہیں ہے، اس لیے ریپوزٹری کی تفصیل خود لکھیں:</p>
+<div class="row">
+<div><label>یوزر نام</label><input id="mo" dir="ltr"></div>
+<div><label>ریپوزٹری</label><input id="mr" dir="ltr"></div>
+</div>
+</div>
+<p class="msg" id="sm"></p>
+<button class="p" id="sv">محفوظ کریں</button>
+</section>
+
+<div id="app" hidden>
+<section class="card">
+<h2 id="ft">نئی پوسٹ</h2>
+<label>ہیڈ لائن</label><input id="title">
+<label>خلاصہ (ایک دو سطر)</label><input id="summary">
+<div class="row">
+<div><label>قسم</label><select id="type"><option value="c">کالم</option><option value="r">ریسرچ</option><option value="l">لیکچر</option><option value="a">تجزیہ</option><option value="m">مضمون</option></select></div>
+<div><label>موضوع</label><select id="topic"></select></div>
+</div>
+<div class="row">
+<div><label>پڑھنے کا وقت</label><input id="read" value="۵ منٹ"></div>
+<div><label>تاریخ</label><input id="date" type="date"></div>
+</div>
+
+<label>تصویر (اختیاری — نہ دیں تو موضوع کے مطابق خودکار ڈیزائن بنے گا)</label>
+<div class="img">
+<input id="file" type="file" accept="image/*" style="width:auto">
+<img id="pv" hidden alt="">
+<button id="rm" hidden class="d">تصویر ہٹائیں</button>
+</div>
+<label>تصویر کے نیچے عبارت (اختیاری)</label><input id="cap">
+
+<label>مضمون</label>
+<div class="tools">
+<button data-ins="## ">ذیلی عنوان</button>
+<button data-ins="> ">اقتباس</button>
+</div>
+<textarea id="bodyt" placeholder="ہر پیراگراف کے بعد ایک خالی لائن چھوڑیں۔&#10;&#10;## سے شروع کریں تو ذیلی عنوان بنے گا۔&#10;&#10;> سے شروع کریں تو نمایاں اقتباس۔"></textarea>
+<p class="hint">ہر پیراگراف کے درمیان ایک خالی لائن لازمی چھوڑیں۔</p>
+<p class="msg" id="fm"></p>
+<button class="p" id="save">محفوظ کریں</button>
+<button id="cancel" hidden>نئی پوسٹ</button>
+</section>
+
+<section class="card">
+<h2>موجودہ پوسٹس</h2>
+<div id="pl"></div>
+</section>
+<p style="text-align:center"><button id="out">چابی ہٹائیں</button></p>
+</div>
+</div>
+
+<script>
+const TOPICS=[['allah','اللہ'],['kainat','کائنات'],['rooh','روح'],['shaoor','شعور'],['sukoon','سکون'],['sukoot','سکوت'],['nafsiyat','نفسیات'],['falsafa','فلسفہ'],['mazhab','مذہب'],['islam','اسلام'],['firqay','فرقہ جات']];
+const TY={c:'کالم',r:'ریسرچ',l:'لیکچر',a:'تجزیہ',m:'مضمون'};
+const $=id=>document.getElementById(id);
+const esc=s=>String(s).replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
+const LS={get:k=>{try{return localStorage.getItem(k)||''}catch(e){return ''}},set:(k,v)=>{try{localStorage.setItem(k,v)}catch(e){}},del:k=>{try{localStorage.removeItem(k)}catch(e){}}};
+let editing=null,img='',LIST=[],SHA='',busy=false;
+$('topic').innerHTML=TOPICS.map(t=>'<option value="'+t[0]+'">'+t[1]+'</option>').join('');
+
+/* ---- ریپوزٹری کا پتہ ---- */
+const onPages=()=>location.hostname.endsWith('.github.io');
+function cfg(){
+  let o='',r='',b='main';
+  if(onPages()){
+    const h=location.hostname;o=h.split('.')[0];
+    r=location.pathname.split('/')[1]||'';
+    if(!r||r.endsWith('.html'))r=h;
+  }
+  try{const s=JSON.parse(LS.get('gh_cfg')||'{}');if(s.o)o=s.o;if(s.r)r=s.r;if(s.b)b=s.b;}catch(e){}
+  return{o:o,r:r,b:b};
+}
+
+/* ---- GitHub سے رابطہ ---- */
+async function gh(path,method,data){
+  const c=cfg(),tok=LS.get('gh_token');
+  const get=!method||method==='GET';
+  const url='https://api.github.com/repos/'+c.o+'/'+c.r+'/contents/'+path+(get?'?ref='+encodeURIComponent(c.b)+'&t='+Date.now():'');
+  let r;
+  try{r=await fetch(url,{method:method||'GET',headers:{'Authorization':'Bearer '+tok,'Accept':'application/vnd.github+json'},body:data?JSON.stringify(data):undefined});}
+  catch(e){throw new Error('انٹرنیٹ سے رابطہ نہیں ہو رہا۔')}
+  const j=await r.json().catch(()=>({}));
+  if(!r.ok){
+    let m='خرابی ('+r.status+')';
+    if(r.status===401)m='چابی غلط ہے یا ختم ہو چکی۔ نیچے "چابی ہٹائیں" دبا کر نئی چابی ڈالیں۔';
+    else if(r.status===403)m='اس چابی کو لکھنے کی اجازت نہیں۔ چابی بناتے وقت Contents کو Read and write رکھیں۔';
+    else if(r.status===404)m='ریپوزٹری یا posts.json نہیں ملی، یا چابی کو اس ریپوزٹری کی اجازت نہیں۔';
+    const e=new Error(m);e.status=r.status;throw e;
+  }
+  return j;
+}
+const enc=s=>{const b=new TextEncoder().encode(s);let x='';for(let i=0;i<b.length;i+=8192)x+=String.fromCharCode.apply(null,b.subarray(i,i+8192));return btoa(x)};
+const dec=b=>{const x=atob(b.replace(/\n/g,''));const u=new Uint8Array(x.length);for(let i=0;i<x.length;i++)u[i]=x.charCodeAt(i);return new TextDecoder().decode(u)};
+
+async function load(){
+  const j=await gh('posts.json');
+  SHA=j.sha;LIST=JSON.parse(dec(j.content));render();
+}
+async function change(mut,m){
+  for(let t=0;t<2;t++){
+    await load();
+    const nl=mut(LIST.slice());
+    try{
+      const j=await gh('posts.json','PUT',{message:m,content:enc(JSON.stringify(nl,null,1)),sha:SHA,branch:cfg().b});
+      SHA=j.content.sha;LIST=nl;render();return;
+    }catch(e){if(t===0&&(e.status===409||e.status===422))continue;throw e;}
+  }
+}
+
+/* ---- تصویر: چھوٹی کر کے اپ لوڈ ---- */
+function shrink(f){
+  return new Promise((ok,no)=>{
+    const im=new Image(),u=URL.createObjectURL(f);
+    im.onload=()=>{
+      const k=Math.min(1,1600/Math.max(im.width,im.height));
+      const c=document.createElement('canvas');c.width=Math.round(im.width*k);c.height=Math.round(im.height*k);
+      const x=c.getContext('2d');x.fillStyle='#fff';x.fillRect(0,0,c.width,c.height);x.drawImage(im,0,0,c.width,c.height);
+      URL.revokeObjectURL(u);
+      c.toBlob(b=>b?ok(b):no(new Error('تصویر نہیں پڑھی جا سکی')),'image/jpeg',.85);
+    };
+    im.onerror=()=>no(new Error('تصویر نہیں پڑھی جا سکی'));
+    im.src=u;
+  });
+}
+const toB64=b=>new Promise((ok,no)=>{const r=new FileReader();r.onload=()=>ok(String(r.result).split(',')[1]);r.onerror=no;r.readAsDataURL(b)});
+
+/* ---- صفحہ ---- */
+const msg=(t,k)=>{$('fm').textContent=t||'';$('fm').className='msg'+(k==='e'?' e':k==='g'?' g':'')};
+const bn=t=>{$('bn').textContent=t||'';$('bn').hidden=!t};
+function render(){
+  $('pl').innerHTML=LIST.length?LIST.map(p=>'<div class="pl"><div class="t"><b>'+esc(p.title)+'</b><span>'+TY[p.type]+' · '+esc(p.date)+'</span></div><button data-e="'+esc(p.id)+'">ترمیم</button><button class="d" data-d="'+esc(p.id)+'">حذف</button></div>').join(''):'<p class="hint">ابھی کوئی پوسٹ نہیں۔</p>';
+}
+function setImg(p,prev){
+  img=p||'';
+  $('pv').hidden=!img;$('rm').hidden=!img;
+  if(img)$('pv').src=prev||img;
+}
+function reset(){
+  editing=null;
+  $('ft').textContent='نئی پوسٹ';$('cancel').hidden=true;
+  ['title','summary','cap','bodyt'].forEach(k=>$(k).value='');
+  $('read').value='۵ منٹ';$('type').value='c';$('topic').value='sukoot';
+  $('date').value=new Date().toISOString().slice(0,10);
+  $('file').value='';setImg('');msg('');
+}
+async function init(){
+  bn('');
+  if(location.protocol==='file:'||location.protocol==='content:'){
+    bn('یہ صفحہ فون کی فائل کی طرح کھلا ہے۔ اسے اپنی سائٹ کے ایڈریس (github.io والے) سے کھولیں۔');return;
+  }
+  const c=cfg();
+  $('manual').hidden=onPages();
+  if(!LS.get('gh_token')||!c.o||!c.r){$('setup').hidden=false;$('app').hidden=true;return;}
+  $('setup').hidden=true;$('app').hidden=false;
+  reset();
+  try{await load();}catch(e){bn(e.message);}
+}
+
+$('sv').onclick=()=>{
+  const t=$('tk').value.trim();
+  if(!t){$('sm').textContent='چابی لکھیں';$('sm').className='msg e';return;}
+  if(!onPages()){
+    const o=$('mo').value.trim(),r=$('mr').value.trim();
+    if(!o||!r){$('sm').textContent='یوزر نام اور ریپوزٹری لکھیں';$('sm').className='msg e';return;}
+    LS.set('gh_cfg',JSON.stringify({o:o,r:r,b:'main'}));
+  }
+  LS.set('gh_token',t);$('tk').value='';init();
+};
+$('out').onclick=()=>{if(confirm('اس فون سے چابی ہٹا دی جائے؟')){LS.del('gh_token');init();}};
+
+$('file').onchange=async()=>{
+  const f=$('file').files[0];if(!f)return;
+  msg('تصویر اپ لوڈ ہو رہی ہے…');
+  try{
+    const blob=await shrink(f);
+    const name='images/'+Date.now().toString(36)+Math.random().toString(36).slice(2,6)+'.jpg';
+    await gh(name,'PUT',{message:'image',content:await toB64(blob),branch:cfg().b});
+    setImg(name,URL.createObjectURL(blob));msg('تصویر لگ گئی ✓','g');
+  }catch(e){msg(e.message,'e');$('file').value='';}
+};
+$('rm').onclick=()=>{setImg('');$('file').value='';};
+
+document.querySelectorAll('[data-ins]').forEach(b=>b.onclick=()=>{
+  const t=$('bodyt'),s=t.selectionStart,v=t.value;
+  const pre=(s>0&&v[s-1]!=='\n')?'\n\n':'';
+  t.value=v.slice(0,s)+pre+b.dataset.ins+v.slice(t.selectionEnd);
+  t.focus();t.selectionStart=t.selectionEnd=s+pre.length+b.dataset.ins.length;
+});
+
+$('save').onclick=async()=>{
+  if(busy)return;
+  const title=$('title').value.trim();
+  if(!title){msg('ہیڈ لائن لکھیں','e');return;}
+  const d=$('date').value;
+  const data={
+    type:$('type').value,topic:$('topic').value,title:title,summary:$('summary').value.trim(),
+    date:/^\d{4}-\d{2}-\d{2}$/.test(d)?d:new Date().toISOString().slice(0,10),
+    read:$('read').value.trim()||'۵ منٹ',img:img,cap:$('cap').value.trim(),
+    body:$('bodyt').value.replace(/\r/g,'').split(/\n\s*\n/).map(s=>s.trim()).filter(Boolean)
+  };
+  const id=editing;
+  busy=true;$('save').disabled=true;$('save').textContent='محفوظ ہو رہی ہے…';msg('');
+  try{
+    if(id)await change(l=>l.map(p=>p.id===id?Object.assign({id:id},data):p),'edit post');
+    else{
+      const nid='p'+Date.now().toString(36)+Math.random().toString(36).slice(2,6);
+      await change(l=>[Object.assign({id:nid},data)].concat(l),'new post');
+    }
+    reset();msg('پوسٹ محفوظ ہو گئی ✓ — سائٹ پر نظر آنے میں ایک دو منٹ لگ سکتے ہیں۔','g');
+  }catch(e){msg(e.message,'e');}
+  busy=false;$('save').disabled=false;$('save').textContent='محفوظ کریں';
+};
+$('cancel').onclick=reset;
+
+$('pl').addEventListener('click',async e=>{
+  const ed=e.target.closest('[data-e]'),de=e.target.closest('[data-d]');
+  if(ed){
+    const p=LIST.find(x=>x.id===ed.dataset.e);if(!p)return;
+    editing=p.id;
+    $('ft').textContent='پوسٹ میں ترمیم';$('cancel').hidden=false;
+    $('title').value=p.title;$('summary').value=p.summary||'';$('type').value=p.type;$('topic').value=p.topic;
+    $('read').value=p.read||'';$('date').value=p.date||'';$('cap').value=p.cap||'';
+    $('bodyt').value=(p.body||[]).join('\n\n');setImg(p.img);msg('');
+    window.scrollTo({top:0,behavior:'smooth'});
+  }
+  if(de&&confirm('یہ پوسٹ مستقل حذف کریں؟')){
+    const id=de.dataset.d;
+    try{await change(l=>l.filter(x=>x.id!==id),'delete post');if(editing===id)reset();}catch(x){msg(x.message,'e');}
+  }
+});
+init();
+</script>
+</body>
+</html>
